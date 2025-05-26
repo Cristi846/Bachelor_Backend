@@ -1,7 +1,9 @@
 package com.backendBachelor.Entity;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class User {
     private String id;
@@ -9,10 +11,12 @@ public class User {
     private String name;
     private double monthlyBudget;
     private List<String> expenseCategories;
+    private Map<String, Double> categoryBudgets;
 
     // Default constructor for Firebase
     public User() {
         this.expenseCategories = new ArrayList<>();
+        this.categoryBudgets = new HashMap<>();
         initDefaultCategories();
     }
 
@@ -23,10 +27,12 @@ public class User {
         this.name = name;
         this.monthlyBudget = 0.0;
         this.expenseCategories = new ArrayList<>();
+        this.categoryBudgets = new HashMap<>();
         initDefaultCategories();
     }
 
     private void initDefaultCategories() {
+        // Add default categories
         expenseCategories.add("Food");
         expenseCategories.add("Transportation");
         expenseCategories.add("Housing");
@@ -35,6 +41,11 @@ public class User {
         expenseCategories.add("Healthcare");
         expenseCategories.add("Shopping");
         expenseCategories.add("Other");
+
+        // Initialize default category budgets with 0.0
+        for (String category : expenseCategories) {
+            categoryBudgets.put(category, 0.0);
+        }
     }
 
     // Getters and Setters
@@ -78,14 +89,32 @@ public class User {
         this.expenseCategories = expenseCategories;
     }
 
+    public Map<String, Double> getCategoryBudgets() {
+        return categoryBudgets;
+    }
+
+    public void setCategoryBudgets(Map<String, Double> categoryBudgets) {
+        this.categoryBudgets = categoryBudgets;
+    }
+
+    public void setCategoryBudget(String category, double budget) {
+        this.categoryBudgets.put(category, budget);
+    }
+
+    public double getCategoryBudget(String category) {
+        return this.categoryBudgets.getOrDefault(category, 0.0);
+    }
+
     public void addExpenseCategory(String category) {
         if (!expenseCategories.contains(category)) {
             expenseCategories.add(category);
+            categoryBudgets.put(category, 0.0);
         }
     }
 
     public void removeExpenseCategory(String category) {
         expenseCategories.remove(category);
+        categoryBudgets.remove(category);
     }
 
     @Override
@@ -96,6 +125,7 @@ public class User {
                 ", name='" + name + '\'' +
                 ", monthlyBudget=" + monthlyBudget +
                 ", expenseCategories=" + expenseCategories +
+                ", categoryBudgets=" + categoryBudgets +
                 '}';
     }
 }

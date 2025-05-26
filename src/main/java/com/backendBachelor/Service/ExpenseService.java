@@ -4,6 +4,7 @@ import com.backendBachelor.Dto.ExpenseDto;
 import com.backendBachelor.Entity.Expense;
 import com.backendBachelor.Mapper.ExpenseMapper;
 import com.backendBachelor.Repository.ExpenseRepository;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -13,6 +14,7 @@ import java.util.Map;
 import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 
+@Service
 public class ExpenseService {
     private final ExpenseRepository expenseRepository;
 
