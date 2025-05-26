@@ -3,29 +3,25 @@ package com.backendBachelor.Config;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.core.io.ClassPathResource;
 
+import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 
-@Configuration
 public class FirebaseConfig {
-    @Bean
-    public FirebaseApp firebaseApp() throws IOException {
+
+    public static void initializeFirebase() throws IOException {
+        // Path to your service account credentials JSON file
+        // You need to download this file from Firebase Console > Project Settings > Service Accounts
+        FileInputStream serviceAccount = new FileInputStream("src/main/resources/serviceAccountKey.json");
+
+        FirebaseOptions options = FirebaseOptions.builder()
+                .setCredentials(GoogleCredentials.fromStream(serviceAccount))
+                .setDatabaseUrl("https://financetracker-3f3fb.firebaseio.com")
+                .build();
+
+        // Initialize the app if it's not already initialized
         if (FirebaseApp.getApps().isEmpty()) {
-            InputStream serviceAccount = new ClassPathResource("serviceAccountKey.json").getInputStream();
-
-            FirebaseOptions options = FirebaseOptions.builder()
-                    .setCredentials(GoogleCredentials.fromStream(serviceAccount))
-                    .setDatabaseUrl("https://finance-tracker-app-XXXXX.firebaseio.com")
-                    .setStorageBucket("finance-tracker-app-XXXXX.appspot.com")
-                    .build();
-
-            return FirebaseApp.initializeApp(options);
-        } else {
-            return FirebaseApp.getInstance();
+            FirebaseApp.initializeApp(options);
         }
     }
 }

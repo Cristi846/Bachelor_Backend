@@ -1,30 +1,54 @@
 package com.backendBachelor.Entity;
 
-import java.time.LocalDateTime;
-import java.util.UUID;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class User {
     private String id;
     private String email;
-    private String username;
-    private String password;
-    private String profileImageUrl;
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
+    private String name;
+    private double monthlyBudget;
+    private List<String> expenseCategories;
+    private Map<String, Double> categoryBudgets;
 
-    public User(){
-        this.id = UUID.randomUUID().toString();
-        this.createdAt = LocalDateTime.now();
-        this.updatedAt = LocalDateTime.now();
+    // Default constructor for Firebase
+    public User() {
+        this.expenseCategories = new ArrayList<>();
+        this.categoryBudgets = new HashMap<>();
+        initDefaultCategories();
     }
 
-    public User(String email, String username, String password) {
-        this();
+    // Constructor with parameters
+    public User(String id, String email, String name) {
+        this.id = id;
         this.email = email;
-        this.username = username;
-        this.password = password;
+        this.name = name;
+        this.monthlyBudget = 0.0;
+        this.expenseCategories = new ArrayList<>();
+        this.categoryBudgets = new HashMap<>();
+        initDefaultCategories();
     }
 
+    private void initDefaultCategories() {
+        // Add default categories
+        expenseCategories.add("Food");
+        expenseCategories.add("Transportation");
+        expenseCategories.add("Housing");
+        expenseCategories.add("Entertainment");
+        expenseCategories.add("Utilities");
+        expenseCategories.add("Healthcare");
+        expenseCategories.add("Shopping");
+        expenseCategories.add("Other");
+
+        // Initialize default category budgets with 0.0
+        for (String category : expenseCategories) {
+            categoryBudgets.put(category, 0.0);
+        }
+    }
+
+    // Getters and Setters
     public String getId() {
         return id;
     }
@@ -41,43 +65,67 @@ public class User {
         this.email = email;
     }
 
-    public String getUsername() {
-        return username;
+    public String getName() {
+        return name;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getPassword() {
-        return password;
+    public double getMonthlyBudget() {
+        return monthlyBudget;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setMonthlyBudget(double monthlyBudget) {
+        this.monthlyBudget = monthlyBudget;
     }
 
-    public String getProfileImageUrl() {
-        return profileImageUrl;
+    public List<String> getExpenseCategories() {
+        return expenseCategories;
     }
 
-    public void setProfileImageUrl(String profileImageUrl) {
-        this.profileImageUrl = profileImageUrl;
+    public void setExpenseCategories(List<String> expenseCategories) {
+        this.expenseCategories = expenseCategories;
     }
 
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
+    public Map<String, Double> getCategoryBudgets() {
+        return categoryBudgets;
     }
 
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
+    public void setCategoryBudgets(Map<String, Double> categoryBudgets) {
+        this.categoryBudgets = categoryBudgets;
     }
 
-    public LocalDateTime getUpdatedAt() {
-        return updatedAt;
+    public void setCategoryBudget(String category, double budget) {
+        this.categoryBudgets.put(category, budget);
     }
 
-    public void setUpdatedAt(LocalDateTime updatedAt) {
-        this.updatedAt = updatedAt;
+    public double getCategoryBudget(String category) {
+        return this.categoryBudgets.getOrDefault(category, 0.0);
+    }
+
+    public void addExpenseCategory(String category) {
+        if (!expenseCategories.contains(category)) {
+            expenseCategories.add(category);
+            categoryBudgets.put(category, 0.0);
+        }
+    }
+
+    public void removeExpenseCategory(String category) {
+        expenseCategories.remove(category);
+        categoryBudgets.remove(category);
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id='" + id + '\'' +
+                ", email='" + email + '\'' +
+                ", name='" + name + '\'' +
+                ", monthlyBudget=" + monthlyBudget +
+                ", expenseCategories=" + expenseCategories +
+                ", categoryBudgets=" + categoryBudgets +
+                '}';
     }
 }
