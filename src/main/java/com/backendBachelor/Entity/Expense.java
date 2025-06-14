@@ -12,13 +12,11 @@ public class Expense {
     private LocalDateTime timestamp;
     private String receiptImageUrl;
 
-    // Default constructor for Firebase
     public Expense() {
         this.id = UUID.randomUUID().toString();
         this.timestamp = LocalDateTime.now();
     }
 
-    // Constructor with parameters
     public Expense(String userId, double amount, String category, String description) {
         this.id = UUID.randomUUID().toString();
         this.userId = userId;
@@ -28,7 +26,6 @@ public class Expense {
         this.timestamp = LocalDateTime.now();
     }
 
-    // Getters and Setters
     public String getId() {
         return id;
     }

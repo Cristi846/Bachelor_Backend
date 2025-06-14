@@ -15,9 +15,6 @@ public class BudgetController {
         this.expenseService = new ExpenseService();
     }
 
-    /**
-     * Set budget for a specific category
-     */
     public void setCategoryBudget(String userId, String category, double amount) {
         try {
             budgetService.setCategoryBudget(userId, category, amount);
@@ -26,9 +23,6 @@ public class BudgetController {
         }
     }
 
-    /**
-     * Get budget for a specific category
-     */
     public double getCategoryBudget(String userId, String category) {
         try {
             return budgetService.getCategoryBudget(userId, category);
@@ -37,9 +31,6 @@ public class BudgetController {
         }
     }
 
-    /**
-     * Get all category budgets for a user
-     */
     public Map<String, Double> getAllCategoryBudgets(String userId) {
         try {
             return budgetService.getAllCategoryBudgets(userId);
@@ -48,9 +39,6 @@ public class BudgetController {
         }
     }
 
-    /**
-     * Analyze spending against budgets by category
-     */
     public Map<String, Map<String, Double>> analyzeSpendingVsBudget(String userId) {
         try {
             return budgetService.analyzeSpendingVsBudget(userId);
@@ -59,9 +47,6 @@ public class BudgetController {
         }
     }
 
-    /**
-     * Get categories that are over budget
-     */
     public Map<String, Double> getOverBudgetCategories(String userId) {
         try {
             return budgetService.getOverBudgetCategories(userId);
@@ -70,9 +55,6 @@ public class BudgetController {
         }
     }
 
-    /**
-     * Get budget suggestions based on spending patterns
-     */
     public Map<String, String> getBudgetSuggestions(String userId) {
         try {
             return budgetService.generateCategoryBudgetSuggestions(userId);

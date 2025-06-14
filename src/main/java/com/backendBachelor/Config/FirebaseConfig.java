@@ -10,8 +10,7 @@ import java.io.IOException;
 public class FirebaseConfig {
 
     public static void initializeFirebase() throws IOException {
-        // Path to your service account credentials JSON file
-        // You need to download this file from Firebase Console > Project Settings > Service Accounts
+
         FileInputStream serviceAccount = new FileInputStream("src/main/resources/serviceAccountKey.json");
 
         FirebaseOptions options = FirebaseOptions.builder()
@@ -19,7 +18,6 @@ public class FirebaseConfig {
                 .setDatabaseUrl("https://financetracker-3f3fb.firebaseio.com")
                 .build();
 
-        // Initialize the app if it's not already initialized
         if (FirebaseApp.getApps().isEmpty()) {
             FirebaseApp.initializeApp(options);
         }

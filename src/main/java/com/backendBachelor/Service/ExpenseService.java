@@ -82,7 +82,6 @@ public class ExpenseService {
             suggestions.add("Your total spending of $" + String.format("%.2f", totalSpending) +
                     " exceeds your monthly budget of $" + String.format("%.2f", monthlyBudget));
 
-            // Find categories with highest spending
             categorySpending.entrySet().stream()
                     .sorted(Map.Entry.<String, Double>comparingByValue().reversed())
                     .limit(3)

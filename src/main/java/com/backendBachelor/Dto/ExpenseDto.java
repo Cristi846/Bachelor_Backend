@@ -25,7 +25,6 @@ public class ExpenseDto {
         this.receiptImageUrl = receiptImageUrl;
     }
 
-    // Getters and Setters
     public String getId() {
         return id;
     }

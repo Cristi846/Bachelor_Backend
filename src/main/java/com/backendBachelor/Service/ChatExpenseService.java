@@ -16,27 +16,19 @@ public class ChatExpenseService {
 
     private final ExpenseService expenseService;
     private final UserRepository userRepository;
-    // Remove AI service temporarily for testing
-    // private final AIExpenseService aiExpenseService;
-
-    // Constructor injection - remove AI service
     public ChatExpenseService(ExpenseService expenseService, UserRepository userRepository) {
         this.expenseService = expenseService;
         this.userRepository = userRepository;
-        // this.aiExpenseService = aiExpenseService;
     }
 
-    // Simple patterns for basic parsing (without AI)
     private static final Pattern AMOUNT_PATTERN = Pattern.compile("(\\d+(?:\\.\\d{1,2})?)\\s*(lei|ron|euro|euros|dollar|dollars|\\$|€)", Pattern.CASE_INSENSITIVE);
     private static final Pattern MERCHANT_PATTERN = Pattern.compile("(?:from|at|in)\\s+([A-Za-z][A-Za-z0-9\\s&'.-]{1,30})", Pattern.CASE_INSENSITIVE);
 
     public ParseExpenseResponse parseExpenseMessage(String message, String userId, String userCurrency) {
         try {
-            // Use simple regex parsing instead of AI for testing
             ParsedExpenseData parsed = parseMessageSimple(message, userCurrency);
 
             if (parsed.amount != null && parsed.confidence >= 0.5) {
-                // Create expense DTO
                 ExpenseDto expenseDto = createExpenseDto(parsed, userId);
 
                 String responseMessage = buildSimpleResponseMessage(parsed, true);
@@ -87,7 +79,6 @@ public class ChatExpenseService {
         String cleanMessage = message.toLowerCase();
         double confidence = 0.0;
 
-        // Extract amount
         Double amount = null;
         String currency = defaultCurrency;
         Matcher amountMatcher = AMOUNT_PATTERN.matcher(message);
@@ -108,7 +99,6 @@ public class ChatExpenseService {
             }
         }
 
-        // Extract merchant
         String merchant = null;
         Matcher merchantMatcher = MERCHANT_PATTERN.matcher(message);
         if (merchantMatcher.find()) {
@@ -116,7 +106,6 @@ public class ChatExpenseService {
             confidence += 0.3;
         }
 
-        // Simple category detection
         String category = "Other";
         if (cleanMessage.contains("food") || cleanMessage.contains("restaurant") ||
                 cleanMessage.contains("groceries") || cleanMessage.contains("auchan") ||
@@ -155,7 +144,6 @@ public class ChatExpenseService {
         }
     }
 
-    // Helper class
     private static class ParsedExpenseData {
         Double amount;
         String currency;

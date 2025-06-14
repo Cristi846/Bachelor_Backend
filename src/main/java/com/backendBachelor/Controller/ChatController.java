@@ -18,9 +18,6 @@ public class ChatController {
     @Autowired
     private ChatExpenseService chatExpenseService;
 
-    /**
-     * Health check endpoint - TEST THIS FIRST
-     */
     @GetMapping("/health")
     public ResponseEntity<Map<String, String>> healthCheck() {
         Map<String, String> response = new HashMap<>();
@@ -30,9 +27,6 @@ public class ChatController {
         return ResponseEntity.ok(response);
     }
 
-    /**
-     * Simple test endpoint
-     */
     @PostMapping("/test")
     public ResponseEntity<Map<String, String>> testEndpoint(@RequestBody Map<String, String> request) {
         Map<String, String> response = new HashMap<>();
@@ -41,13 +35,10 @@ public class ChatController {
         return ResponseEntity.ok(response);
     }
 
-    /**
-     * Parse a natural language expense message
-     */
     @PostMapping("/parse")
     public ResponseEntity<ParseExpenseResponse> parseExpenseMessage(@RequestBody ParseExpenseRequest request) {
         try {
-            System.out.println("Received parse request: " + request.getMessage()); // Debug log
+            System.out.println("Received parse request: " + request.getMessage());
 
             ParseExpenseResponse response = chatExpenseService.parseExpenseMessage(
                     request.getMessage(),
@@ -55,10 +46,10 @@ public class ChatController {
                     request.getUserCurrency()
             );
 
-            System.out.println("Sending response: " + response.getMessage()); // Debug log
+            System.out.println("Sending response: " + response.getMessage());
             return ResponseEntity.ok(response);
         } catch (Exception e) {
-            System.err.println("Error in parseExpenseMessage: " + e.getMessage()); // Debug log
+            System.err.println("Error in parseExpenseMessage: " + e.getMessage());
             e.printStackTrace();
 
             return ResponseEntity.badRequest().body(
@@ -67,9 +58,6 @@ public class ChatController {
         }
     }
 
-    /**
-     * Confirm and save a parsed expense
-     */
     @PostMapping("/confirm")
     public ResponseEntity<ConfirmExpenseResponse> confirmExpense(@RequestBody ConfirmExpenseRequest request) {
         try {
@@ -82,9 +70,6 @@ public class ChatController {
         }
     }
 
-    /**
-     * Get chat suggestions based on user input
-     */
     @PostMapping("/suggestions")
     public ResponseEntity<SuggestionsResponse> getSuggestions(@RequestBody SuggestionsRequest request) {
         try {
@@ -100,7 +85,6 @@ public class ChatController {
         }
     }
 
-    // Request/Response DTOs
     public static class ParseExpenseRequest {
         private String message;
         private String userId;

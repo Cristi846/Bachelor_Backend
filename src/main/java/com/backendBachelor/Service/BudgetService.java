@@ -19,9 +19,6 @@ public class BudgetService {
         this.expenseService = new ExpenseService();
     }
 
-    /**
-     * Get a user's budget for a specific category
-     */
     public double getCategoryBudget(String userId, String category) throws ExecutionException, InterruptedException {
         User user = userRepository.getUserById(userId);
         if (user != null) {
@@ -30,9 +27,6 @@ public class BudgetService {
         return 0.0;
     }
 
-    /**
-     * Set a budget for a specific category
-     */
     public void setCategoryBudget(String userId, String category, double amount) throws ExecutionException, InterruptedException {
         User user = userRepository.getUserById(userId);
         if (user != null) {
@@ -41,9 +35,6 @@ public class BudgetService {
         }
     }
 
-    /**
-     * Get all category budgets for a user
-     */
     public Map<String, Double> getAllCategoryBudgets(String userId) throws ExecutionException, InterruptedException {
         User user = userRepository.getUserById(userId);
         if (user != null) {
@@ -52,9 +43,6 @@ public class BudgetService {
         return new HashMap<>();
     }
 
-    /**
-     * Calculate spending vs budget for each category
-     */
     public Map<String, Map<String, Double>> analyzeSpendingVsBudget(String userId) throws ExecutionException, InterruptedException {
         Map<String, Double> spending = expenseService.analyzeCategorySpending(userId);
         Map<String, Double> budgets = getAllCategoryBudgets(userId);
@@ -79,9 +67,6 @@ public class BudgetService {
         return analysis;
     }
 
-    /**
-     * Get categories that are over budget
-     */
     public Map<String, Double> getOverBudgetCategories(String userId) throws ExecutionException, InterruptedException {
         Map<String, Double> spending = expenseService.analyzeCategorySpending(userId);
         Map<String, Double> budgets = getAllCategoryBudgets(userId);
@@ -101,26 +86,20 @@ public class BudgetService {
         return overBudgetCategories;
     }
 
-    /**
-     * Generate specific budget suggestions based on category spending
-     */
     public Map<String, String> generateCategoryBudgetSuggestions(String userId) throws ExecutionException, InterruptedException {
         Map<String, Double> spending = expenseService.analyzeCategorySpending(userId);
         Map<String, Double> budgets = getAllCategoryBudgets(userId);
         Map<String, String> suggestions = new HashMap<>();
 
-        // First, identify categories without budgets
         for (String category : spending.keySet()) {
             double spent = spending.get(category);
             double budget = budgets.getOrDefault(category, 0.0);
 
             if (budget == 0.0 && spent > 0) {
-                // Suggest setting a budget based on current spending
                 suggestions.put(category, "Consider setting a budget for " + category +
                         " based on your average spending of $" +
                         String.format("%.2f", spent));
             } else if (spent > budget && budget > 0) {
-                // Category is over budget
                 double overage = spent - budget;
                 double percentOver = (overage / budget) * 100;
 
@@ -128,7 +107,6 @@ public class BudgetService {
                         String.format("%.2f", overage) + " (" +
                         String.format("%.1f", percentOver) + "%). Consider increasing your budget or reducing expenses.");
             } else if (spent < budget * 0.5 && budget > 0) {
-                // Category is significantly under budget
                 suggestions.put(category, "You're using only " +
                         String.format("%.1f", (spent / budget) * 100) +
                         "% of your " + category + " budget. Consider reallocating some funds to other categories.");

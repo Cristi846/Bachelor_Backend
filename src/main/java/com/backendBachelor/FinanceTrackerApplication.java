@@ -14,10 +14,8 @@ public class FinanceTrackerApplication {
 
     public static void main(String[] args) {
         try {
-            // Initialize Firebase
             FirebaseConfig.initializeFirebase();
 
-            // Start Spring Boot application
             SpringApplication.run(FinanceTrackerApplication.class, args);
 
             System.out.println("Finance Tracker application started successfully!");

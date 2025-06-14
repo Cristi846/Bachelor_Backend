@@ -13,14 +13,12 @@ public class User {
     private List<String> expenseCategories;
     private Map<String, Double> categoryBudgets;
 
-    // Default constructor for Firebase
     public User() {
         this.expenseCategories = new ArrayList<>();
         this.categoryBudgets = new HashMap<>();
         initDefaultCategories();
     }
 
-    // Constructor with parameters
     public User(String id, String email, String name) {
         this.id = id;
         this.email = email;
@@ -32,7 +30,6 @@ public class User {
     }
 
     private void initDefaultCategories() {
-        // Add default categories
         expenseCategories.add("Food");
         expenseCategories.add("Transportation");
         expenseCategories.add("Housing");
@@ -42,13 +39,11 @@ public class User {
         expenseCategories.add("Shopping");
         expenseCategories.add("Other");
 
-        // Initialize default category budgets with 0.0
         for (String category : expenseCategories) {
             categoryBudgets.put(category, 0.0);
         }
     }
 
-    // Getters and Setters
     public String getId() {
         return id;
     }

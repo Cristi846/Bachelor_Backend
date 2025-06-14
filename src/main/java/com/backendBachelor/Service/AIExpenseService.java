@@ -104,7 +104,6 @@ public class AIExpenseService {
             JsonNode message = firstChoice.get("message");
             String content = message.get("content").asText().trim();
 
-            // Parse the JSON content
             JsonNode expenseJson = objectMapper.readTree(content);
 
             return new AIExpenseResult(
@@ -144,7 +143,6 @@ public class AIExpenseService {
             this.rawResponse = rawResponse;
         }
 
-        // Getters
         public Double getAmount() { return amount; }
         public String getCurrency() { return currency; }
         public String getMerchant() { return merchant; }
